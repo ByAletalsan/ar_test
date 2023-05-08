@@ -26,14 +26,15 @@
                 cursor="fuse: false; rayOrigin: mouse;"
                 id="markerA"
             >
-                <a-image
-                    src="assets/asset.jpeg"
-                    position="0 0 0"
-                    scale="1 1 1"
-                    class="clickable"
-                    rotation="-90 0 0"
-                    gesture-handler
-                ></a-image>
+                <a-entity position="0 0 0" scale="1 1 1" rotation="-90 0 0" id="panel-prohibited-1">
+                    <a-image
+                        src="assets/asset.jpeg"
+                        scale="1 1 1"
+                        class="clickable"
+                        rotation="-90 0 0"
+                        gesture-handler
+                    ></a-image>
+                </a-entity>
             </a-marker>
 
             <a-entity camera></a-entity>
