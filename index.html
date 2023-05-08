@@ -7,6 +7,12 @@
         <script src="https://raw.githack.com/AR-js-org/studio-backend/master/src/modules/marker/tools/gesture-handler.js"></script>
     </head>
 
+    <script>
+        function myFunction()
+        {
+            console.log("left!");
+        }
+    </script>
     <body style="margin: 0; overflow: hidden;">
         <a-scene
             vr-mode-ui="enabled: false;"
@@ -38,6 +44,7 @@
             </a-marker>
 
             <a-entity camera></a-entity>
+            <button onclick="myFunction()">LEFT</button>
         </a-scene>
     </body>
 </html>
