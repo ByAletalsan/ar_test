@@ -225,7 +225,7 @@
 	</div>
       </div>
 
-      <a-scene mindar-image="imageTargetSrc: https://cdn.jsdelivr.net/gh/hiukim/mind-ar-js@1.1.5/examples/image-tracking/assets/card-example/card.mind; showStats: false; uiScanning: #example-scanning-overlay;" embedded color-space="sRGB" renderer="colorManagement: true, physicallyCorrectLights" vr-mode-ui="enabled: false" device-orientation-permission-ui="enabled: false">
+      <a-scene mindar-image="imageTargetSrc: ./assets/card-example/targets.mind; showStats: false; uiScanning:no;" embedded color-space="sRGB" renderer="colorManagement: true, physicallyCorrectLights" vr-mode-ui="enabled: false" device-orientation-permission-ui="enabled: false">
         <a-assets>
           <img id="card" src="./assets/card-example/portfolio/phishgon.png" />
           <img id="icon-web" src="./assets/card-example/icons/web.png" />
@@ -285,7 +285,7 @@
             animation="property: scale; to: 1.2 1.2 1.2; dur: 1000; easing: easeInOutQuad; loop: true; dir: alternate"
           ></a-image>
 
-          <a-text id="text" class="clickable" value="" color="black" align="center" width="2" position="0 -1 0" geometry="primitive:plane; height: 0.1; width: 2;" material="opacity: 0.5"></a-text>
+          <a-text id="text" class="clickable" value="" color="black" align="center" width="2" position="0 -1 0"></a-text>
         </a-entity>
       </a-scene>
     </div>
