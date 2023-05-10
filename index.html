@@ -57,10 +57,11 @@ function updateCubePosition(x, y) {
 
 function detectHands() {
 model.detect(canvas).then((predictions) => {
+	console.log("MANOS!");
 	if (predictions.length > 0) {
-	const x = predictions[0].bbox[0];
-	const y = predictions[0].bbox[1];
-	updateCubePosition(x, y);
+		const x = predictions[0].bbox[0];
+		const y = predictions[0].bbox[1];
+		updateCubePosition(x, y);
 	}
 	requestAnimationFrame(detectHands);
 });
