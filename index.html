@@ -24,7 +24,7 @@
 -->
 <canvas id="canvas"></canvas>
 <button id="myButton" style="position:absolute; z-index: 1;">Haz clic aquí</button>
-<script src="https://cdn.jsdelivr.net/npm/handtrackjs/dist/handtrack.min.js"></script>
+<script src="js/handtrack.min.js"></script>
 <script>
 
 var scene, camera, renderer, clock, deltaTime, totalTime;
@@ -48,9 +48,11 @@ const modelParams = {
 let model;
 handTrack.load(modelParams).then((lmodel) => {
 	model = lmodel;
+	console.log(model);
 });
 
 function updateCubePosition(x, y) {
+	console.log("NOS MOVEMOS!");
 	mesh0.position.x = (x / window.innerWidth) * 10 - 5;
 	mesh0.position.y = (y / window.innerHeight) * -10 + 5;
 }
@@ -68,6 +70,7 @@ model.detect(canvas).then((predictions) => {
 }
 
 handTrack.startVideo(canvas).then((status) => {
+	console.log("EMPEZAMOS VIDEO!");
 	if (status) {
 		detectHands();
 	}
