@@ -1,54 +1,58 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    <script src="three.js"></script>
+<html>
+  <head>
+    <meta charset="UTF-8" />
+    <title>AR con Three.js</title>
+    <style>
+      body {
+        margin: 0;
+        overflow: hidden;
+      }
+      canvas {
+        width: 100vw;
+        height: 100vh;
+      }
+    </style>
+  </head>
+  <body>
+    <canvas id="canvas"></canvas>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script>
-        // Se crea una escena
-const scene = new THREE.Scene();
+      // Inicializa la escena de three.js
+      const scene = new THREE.Scene();
 
-// Se crea una cámara
-const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+      // Crea un canvas para renderizar la escena
+      const canvas = document.getElementById('canvas');
+      const renderer = new THREE.WebGLRenderer({ canvas });
 
-// Se crea un renderer
-const renderer = new THREE.WebGLRenderer();
-renderer.setSize(window.innerWidth, window.innerHeight);
-document.body.appendChild(renderer.domElement);
+      // Usa la API de getUserMedia para obtener la imagen de la webcam
+      navigator.mediaDevices.getUserMedia({ video: true })
+        .then(function(stream) {
+          // Crea un objeto de cámara
+          const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 
-// Se crea una pista de carreras
-const trackGeometry = new THREE.PlaneGeometry(100, 100, 50, 50);
-const trackMaterial = new THREE.MeshBasicMaterial({color: 0x00ff00, wireframe: true});
-const track = new THREE.Mesh(trackGeometry, trackMaterial);
-scene.add(track);
+          // Configura la posición y orientación de la cámara para que coincida con la webcam
+          const video = document.createElement('video');
+          video.srcObject = stream;
+          video.play();
+          const texture = new THREE.VideoTexture(video);
+          camera.position.z = 5;
+          camera.rotation.y = Math.PI;
 
-// Se crea un coche
-const carGeometry = new THREE.BoxGeometry(2, 1, 1);
-const carMaterial = new THREE.MeshBasicMaterial({color: 0xff0000});
-const car = new THREE.Mesh(carGeometry, carMaterial);
-car.position.y = 0.5;
-scene.add(car);
+          // Crea un objeto de plano y aplica la textura de la webcam
+          const geometry = new THREE.PlaneGeometry(10, 10, 1);
+          const material = new THREE.MeshBasicMaterial({ map: texture });
+          const plane = new THREE.Mesh(geometry, material);
 
-// Se crea una luz ambiental
-const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
-scene.add(ambientLight);
+          // Agrega el objeto de plano a la escena
+          scene.add(plane);
 
-// Se crea una luz direccional
-const directionalLight = new THREE.DirectionalLight(0xffffff, 0.5);
-directionalLight.position.set(0, 1, 0);
-scene.add(directionalLight);
-
-// Se actualiza la posición del coche en cada frame
-function animate() {
-    requestAnimationFrame(animate);
-    car.rotation.y += 0.01;
-    renderer.render(scene, camera);
-}
-animate();
+          // Renderiza la escena en el canvas
+          renderer.render(scene, camera);
+        })
+        .catch(function(error) {
+          console.log(error);
+        });
     </script>
-</body>
+  </body>
 </html>
