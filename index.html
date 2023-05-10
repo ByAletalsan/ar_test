@@ -38,6 +38,13 @@ var mesh1;
 initialize();
 animate();
 
+const moveButton = document.getElementById('moveButton');
+moveButton.addEventListener('click', function() {
+// Cambia la posición del objeto en el eje X
+	mesh1.position.x += 0.5;
+	console.log("algo?");
+});
+
 function initialize()
 {
 	scene = new THREE.Scene();
@@ -142,14 +149,7 @@ function initialize()
 					markerRoot1.add(mesh0);
 				}, onProgress, onError );
 		});
-
-	const moveButton = document.getElementById('moveButton');
-	moveButton.addEventListener('click', function() {
-	// Cambia la posición del objeto en el eje X
-		mesh0.position.x += 0.5;
-	});
 }
-
 
 function update()
 {
