@@ -46,6 +46,7 @@ const modelParams = {
 	scoreThreshold: 0.7,
 };
 let model;
+const canvas = document.getElementById("canvas");
 handTrack.load(modelParams).then((lmodel) => {
 	model = lmodel;
 	console.log(model);
