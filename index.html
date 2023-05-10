@@ -6,14 +6,12 @@
     <script src="https://cdn.jsdelivr.net/npm/mind-ar@1.2.1/dist/mindar-image-aframe.prod.js"></script>
   </head>
   <body>
-    <!--
     <button  id="trackbutton" class="bx--btn bx--btn--secondary" type="button" disabled>
         Toggle Video
     </button>
     <div id="updatenote" class="updatenote mt10"> loading model ..</div>
     <video class="videobox canvasbox" autoplay="autoplay" id="myvideo"></video>
     <canvas id="canvas" class="border canvasbox"></canvas>
-    -->
     <a-scene mindar-image="imageTargetSrc: https://cdn.jsdelivr.net/gh/hiukim/mind-ar-js@1.2.1/examples/image-tracking/assets/band-example/band.mind;" color-space="sRGB" renderer="colorManagement: true, physicallyCorrectLights" vr-mode-ui="enabled: false" device-orientation-permission-ui="enabled: false">
       <a-assets>
         <a-asset-item id="bearModel" src="https://cdn.jsdelivr.net/gh/hiukim/mind-ar-js@1.2.1/examples/image-tracking/assets/band-example/bear/scene.gltf"></a-asset-item>
@@ -29,7 +27,9 @@
         <a-gltf-model rotation="0 0 0 " position="0 -0.25 0" scale="0.05 0.05 0.05" src="#bearModel" animation-mixer>
       </a-entity>
     </a-scene>
+    <!--
     <script src="handtrack.min.js"> </script>
     <script src="index.js"></script>
+    -->
   </body>
 </html>
