@@ -18,6 +18,8 @@
 
 <body style='margin : 0px; overflow: hidden; font-family: Monospace;'>
 
+<button id="moveButton">Mover Objeto</button>
+
 <!-- 
   Example created by Lee Stemkoski: https://github.com/stemkoski
   Based on the AR.js library and examples created by Jerome Etienne: https://github.com/jeromeetienne/AR.js/
@@ -140,6 +142,12 @@ function initialize()
 					markerRoot1.add(mesh0);
 				}, onProgress, onError );
 		});
+
+	const moveButton = document.getElementById('moveButton');
+	moveButton.addEventListener('click', function() {
+	// Cambia la posición del objeto en el eje X
+		mesh0.position.x += 0.5;
+	});
 }
 
 
