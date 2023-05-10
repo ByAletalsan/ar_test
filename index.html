@@ -21,6 +21,12 @@
         <a-gltf-model rotation="0 0 0 " position="0 -0.25 0" scale="0.05 0.05 0.05" src="#bearModel" animation-mixer>
       </a-entity>
     </a-scene>
+    <button  id="trackbutton" class="bx--btn bx--btn--secondary" type="button" disabled>
+        Toggle Video
+    </button>
+    <div id="updatenote" class="updatenote mt10"> loading model ..</div>
+    <video class="videobox canvasbox" autoplay="autoplay" id="myvideo"></video>
+    <canvas id="canvas" class="border canvasbox"></canvas>
     <script src="handtrack.min.js"> </script>
     <script src="index.js"></script>
   </body>
