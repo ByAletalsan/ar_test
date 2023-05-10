@@ -47,6 +47,7 @@ const modelParams = {
 };
 let model;
 const canvas = document.getElementById("canvas");
+console.log(canvas);
 handTrack.load(modelParams).then((lmodel) => {
 	model = lmodel;
 	console.log(model);
@@ -59,19 +60,19 @@ function updateCubePosition(x, y) {
 }
 
 function detectHands() {
-model.detect(canvas).then((predictions) => {
-	console.log("MANOS!");
-	if (predictions.length > 0) {
-		const x = predictions[0].bbox[0];
-		const y = predictions[0].bbox[1];
-		updateCubePosition(x, y);
-	}
-	requestAnimationFrame(detectHands);
-});
+	model.detect(canvas).then((predictions) => {
+		console.log("MANOS!");
+		if (predictions.length > 0) {
+			const x = predictions[0].bbox[0];
+			const y = predictions[0].bbox[1];
+			updateCubePosition(x, y);
+		}
+		requestAnimationFrame(detectHands);
+	});
 }
 
 handTrack.startVideo(canvas).then((status) => {
-	console.log("EMPEZAMOS VIDEO!");
+	console.log("EMPEZAMOS VIDEO!" + status);
 	if (status) {
 		detectHands();
 	}
