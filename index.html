@@ -114,20 +114,23 @@ function initialize()
 		patternUrl : "data/hiro.patt",
 	})
 
-	var planeGeometry = new THREE.PlaneGeometry(5, 5);
-
-	// Cargar la textura
+	var planeGeometry = new THREE.PlaneGeometry(1, 1);
 	var textureLoader = new THREE.TextureLoader();
 	var texture = textureLoader.load('images/gato_mexico.jpg');
-
-	// Crear el material con la textura
 	var planeMaterial = new THREE.MeshBasicMaterial({ map: texture });
-
-	// Crear la malla del plano con la geometría y el material
 	var planeMesh = new THREE.Mesh(planeGeometry, planeMaterial);
 	markerRoot1.add(planeMesh);
 }
 
+// Crear una interpolación para la posición de la sprite
+var positionInterpolation = new TWEEN.Tween(planeMesh.position)
+  .to({ x: 0, y: 0, z: 0 }, 1000)
+  .easing(TWEEN.Easing.Quadratic.Out);
+
+// Iniciar la interpolación cuando la imagen aparece
+function onImageAppear() {
+  positionInterpolation.start();
+}
 
 function update()
 {
@@ -145,6 +148,7 @@ function render()
 
 function animate()
 {
+	TWEEN.update();
 	requestAnimationFrame(animate);
 	deltaTime = clock.getDelta();
 	totalTime += deltaTime;
