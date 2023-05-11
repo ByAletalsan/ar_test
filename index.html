@@ -4,8 +4,6 @@
 	<title>Hello, world!</title>
 	<!-- include three.js library -->
 	<script src='js/three.js'></script>
-	<script src='js/OBJLoader.js'></script>
-	<script src='js/MTLLoader.js'></script>
 	<!-- include jsartookit -->
 	<script src="jsartoolkit5/artoolkit.min.js"></script>
 	<script src="jsartoolkit5/artoolkit.api.js"></script>
@@ -22,9 +20,7 @@
   Example created by Lee Stemkoski: https://github.com/stemkoski
   Based on the AR.js library and examples created by Jerome Etienne: https://github.com/jeromeetienne/AR.js/
 -->
-<video class="videobox canvasbox" autoplay="autoplay" id="myvideo"></video>
-<button id="myButton" style="position:absolute; z-index: 1;">Haz clic aquí</button>
-<script src="js/handtrack.min.js"></script>
+
 <script>
 
 var scene, camera, renderer, clock, deltaTime, totalTime;
@@ -33,50 +29,7 @@ var arToolkitSource, arToolkitContext;
 
 var markerRoot1;
 
-var mesh1, mesh0;
-const myButton = document.getElementById('myButton');
-myButton.addEventListener('click', function() {
-	mesh0.position.x += 0.5;
-});
-
-const modelParams = {
-	flipHorizontal: true, // mirar la palma de la mano
-	maxNumBoxes: 1, // detectar solo una mano
-	iouThreshold: 0.5,
-	scoreThreshold: 0.7,
-};
-let model;
-const video = document.getElementById("myvideo");
-handTrack.load(modelParams).then((lmodel) => {
-	model = lmodel;
-	console.log(model);
-});
-
-function updateCubePosition(x, y) {
-	console.log("NOS MOVEMOS!");
-	mesh0.position.x = (x / window.innerWidth) * 10 - 5;
-	mesh0.position.y = (y / window.innerHeight) * -10 + 5;
-}
-
-function detectHands() {
-	model.detect(video).then((predictions) => {
-		console.log("MANOS!");
-		if (predictions.length > 0) {
-			const x = predictions[0].bbox[0];
-			const y = predictions[0].bbox[1];
-			updateCubePosition(x, y);
-		}
-		requestAnimationFrame(detectHands);
-	});
-}
-
-handTrack.startVideo(video).then((status) => {
-	console.log("EMPEZAMOS VIDEO!" + status);
-	if (status) {
-		detectHands();
-	}
-});
-
+var mesh1;
 
 initialize();
 animate();
@@ -154,38 +107,44 @@ function initialize()
 
 	// build markerControls
 	markerRoot1 = new THREE.Group();
+	markerRoot1.name = 'marker1';
 	scene.add(markerRoot1);
 	let markerControls1 = new THREEx.ArMarkerControls(arToolkitContext, markerRoot1, {
-		type: 'pattern', patternUrl: "data/hiro.patt",
+		type : 'pattern',
+		patternUrl : "data/hiro.patt",
 	})
 
-	let geometry1 = new THREE.PlaneBufferGeometry(1,1, 4,4);
+	// the inside of the hole
+	let geometry1	= new THREE.CubeGeometry(2,2,2);
 	let loader = new THREE.TextureLoader();
-	// let texture = loader.load( 'images/earth.jpg', render );
-	let material1 = new THREE.MeshBasicMaterial( { color: 0x0000ff, opacity: 0.5 } );
+	let texture = loader.load( 'images/tiles.jpg', render );
+	let material1	= new THREE.MeshLambertMaterial({
+		transparent : true,
+		map: texture,
+		side: THREE.BackSide
+	}); 
+	
 	mesh1 = new THREE.Mesh( geometry1, material1 );
-	mesh1.rotation.x = -Math.PI/2;
+	mesh1.position.y = -1;
+	
 	markerRoot1.add( mesh1 );
 	
-	function onProgress(xhr) { console.log( (xhr.loaded / xhr.total * 100) + '% loaded' ); }
-	function onError(xhr) { console.log( 'An error happened' ); }
+	// the invisibility cloak (plane with a hole)
+	let geometry0 = new THREE.PlaneGeometry(18,18, 9,9);
+	geometry0.faces.splice(80, 2); // make hole by removing top two triangles
+	geometry0.faceVertexUvs[0].splice(80, 2);
 	
-	new THREE.MTLLoader()
-		.setPath( 'models/' )
-		.load( 'fish-2.mtl', function ( materials ) {
-			materials.preload();
-			new THREE.OBJLoader()
-				.setMaterials( materials )
-				.setPath( 'models/' )
-				.load( 'fish-2.obj', function ( group ) {
-					mesh0 = group.children[0];
-					mesh0.material.side = THREE.DoubleSide;
-					mesh0.position.y = 0.25;
-					mesh0.scale.set(0.25,0.25,0.25);
-					markerRoot1.add(mesh0);
-				}, onProgress, onError );
-		});
+	let material0 = new THREE.MeshBasicMaterial({
+		// map: loader.load( 'images/color-grid.png' ), // for testing placement
+		colorWrite: false
+	});
+	
+	let mesh0 = new THREE.Mesh( geometry0, material0 );
+	
+	mesh0.rotation.x = -Math.PI/2;
+	markerRoot1.add(mesh0);	
 }
+
 
 function update()
 {
